@@ -1,4 +1,4 @@
-function getUniqueURL(){
+function getUniqueCode(){
     const B62_EXPRESSION="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let text="";
     for(let i=0;i<5;i++){
@@ -7,5 +7,4 @@ function getUniqueURL(){
     return text;
 }
 
-module.exports=getUniqueURL;
-//console.log(getUniqueURL());
+module.exports=getUniqueCode;

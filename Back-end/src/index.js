@@ -1,12 +1,13 @@
 const express=require('express'); // import express module
 const app=express();
 const bodyParser = require("body-parser");
-const PORT=3000; // Set up an app listen port
+const cors=require("cors");
 const mongoose=require('mongoose');
+const getUniqueCode=require('./hashing');
 
-const getUniqueUrl=require('./hashing');
-
-
+app.use(cors());
+const PORT=8000; // Set up an app listen port
+const URL="localhost:8000/hashurl"
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
@@ -29,33 +30,39 @@ const urlSchema=new mongoose.Schema({
 const HashURL=mongoose.model('url_datas', urlSchema);
 
 //api for getting hash url
-app.post("/hashing.api.com/v1/url", (req, res)=>{
-    const id=getUniqueUrl();
+app.post("/hashing.api.co/v1/url", (req, res)=>{
     const longUrl=req.body.longUrl;
-    const hashUrl=`hashurl.com/${id}`;
+    HashURL.findOne({longUrl:longUrl}).then((record)=>{
+        if(record){
+            res.send(record.hashUrl);
+            return;
+        }
+    });
+    const uniqueCode=getUniqueCode();
+    const hashUrl=`${URL}/${uniqueCode}`;
     const obj={
         longUrl,
         hashUrl
     };
-    const newURL=new HashURL(obj);
-    newURL.save().then((result)=>{
+    const newHashURL=new HashURL(obj);
+    newHashURL.save().then((result)=>{
         res.send(result);
     });
 });
 
-app.get("/hashurl.com/:id", (req,res)=>{
-    const id=req.params.id;
-    const url=`hashurl.com/${id}`;
-    console.log(url);
-    HashURL.findOne({hashUrl:url}).then((record)=>{
+//route for redirect to long url
+app.get("/hashurl/:uniqueCode", (req,res)=>{
+    const uniqueCode=req.params.uniqueCode;
+    const hashUrl=`${URL}/${uniqueCode}`;
+    HashURL.findOne({hashUrl:hashUrl}).then((record)=>{
         if(!record){
-            res.status(404).send("no url available");
+            res.status(404).send("Wrong URL");
         }
-        console.log(record)
         res.redirect(record.longUrl);
     });
 });
 
+//listening port
 app.listen(PORT, ()=>{
     console.log(`App listening on port ${PORT}!`);
 });
