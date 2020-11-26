@@ -45,9 +45,11 @@ export default function WelcomeUI() {
   const HOST = "http://localhost:8000";
 
   const handleClick = (event) => {
-    console.log("click");
+    if(!url){
+      return;
+    }
     event.preventDefault();
-    Axios.post(`${HOST}/hashing.api.com/v1/url`, {
+    Axios.post(`${HOST}/hashing.api.co/v1/url`, {
       longUrl: url,
     }).then((res) => {
       console.log(res);
