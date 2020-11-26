@@ -1,4 +1,4 @@
 # To Do
 Deploy,
-Validation part,
+Validation,
 UI work
