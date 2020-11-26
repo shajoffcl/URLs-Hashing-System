@@ -1,0 +1,23 @@
+{
+  "name": "urls-hashing-system",
+  "version": "1.0.0",
+  "description": "all api's related to projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shajoffcl/URLs-Hashing-System.git"
+  },
+  "author": "Mohd Shaib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shajoffcl/URLs-Hashing-System/issues"
+  },
+  "homepage": "https://github.com/shajoffcl/URLs-Hashing-System#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.16"
+  }
+}
